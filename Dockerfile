@@ -20,8 +20,8 @@ RUN apk add --no-cache nginx curl
 COPY --from=frontend-builder /app/frontend/build /usr/share/nginx/html
 COPY frontend/nginx.conf /etc/nginx/http.d/default.conf
 
-# Copy PocketBase data (if exists)
-COPY pb_data /pb/pb_data
+# Create PocketBase data directory
+RUN mkdir -p /pb/pb_data
 
 # Copy setup and entrypoint scripts
 COPY pb_setup.sh /pb/
