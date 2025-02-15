@@ -13,8 +13,8 @@ ADD https://github.com/pocketbase/pocketbase/releases/download/v0.19.4/pocketbas
 RUN unzip /tmp/pb.zip -d /pb/ && \
     rm /tmp/pb.zip
 
-# Install nginx
-RUN apk add --no-cache nginx
+# Install nginx and curl (für Setup-Script)
+RUN apk add --no-cache nginx curl
 
 # Copy frontend build
 COPY --from=frontend-builder /app/frontend/build /usr/share/nginx/html
@@ -23,9 +23,15 @@ COPY frontend/nginx.conf /etc/nginx/http.d/default.conf
 # Copy PocketBase data (if exists)
 COPY pb_data /pb/pb_data
 
+# Copy setup and entrypoint scripts
+COPY pb_setup.sh /pb/
+COPY docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh /pb/pb_setup.sh
+
+# Default Admin Credentials (sollten bei Deployment überschrieben werden)
+ENV ADMIN_EMAIL=admin@example.com
+ENV ADMIN_PASSWORD=changeme123
+
 EXPOSE 80 8090
 
-# Start both nginx and PocketBase
-COPY docker-entrypoint.sh /
-RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
