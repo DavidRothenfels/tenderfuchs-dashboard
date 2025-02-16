@@ -6,16 +6,7 @@ Ein Dashboard basierend auf React und PocketBase.
 
 ### GitHub Actions
 
-Das Projekt verwendet GitHub Actions für automatisierte Docker-Builds. Bei jedem Push auf den main Branch wird ein All-in-One Docker Image erstellt und in die GitHub Container Registry (ghcr.io) gepusht. Dieses Image enthält:
-
-- PocketBase Backend
-- React Frontend
-- Nginx Webserver
-
-Das Image wird automatisch mit Tags für:
-- SHA (Git Commit)
-- Branch Name
-- Latest (nur für main Branch)
+Das Projekt verwendet GitHub Actions für automatisierte Docker-Builds. Bei jedem Push auf den main Branch wird ein All-in-One Docker Image erstellt und in die GitHub Container Registry (ghcr.io) gepusht.
 
 ### Coolify Integration
 
@@ -35,6 +26,15 @@ Vor dem ersten Deployment müssen folgende GitHub Secrets eingerichtet werden:
 3. Füge folgende Secrets hinzu:
    - `ADMIN_EMAIL`: Die E-Mail-Adresse für den PocketBase Admin-Account
    - `ADMIN_PASSWORD`: Das Passwort für den PocketBase Admin-Account
+   - `REACT_APP_OPENAI_API_KEY`: OpenAI API-Schlüssel für die KI-Funktionen
+
+### Umgebungsvariablen
+
+Der Container benötigt folgende Umgebungsvariablen:
+
+- `ADMIN_EMAIL`: Admin E-Mail für PocketBase
+- `ADMIN_PASSWORD`: Admin Passwort für PocketBase
+- `REACT_APP_OPENAI_API_KEY`: OpenAI API-Schlüssel
 
 ### Container starten
 
@@ -48,27 +48,23 @@ docker run -d \
   -p 8090:8090 \
   -e ADMIN_EMAIL=your-email@example.com \
   -e ADMIN_PASSWORD=your-secure-password \
+  -e REACT_APP_OPENAI_API_KEY=your-openai-api-key \
   ghcr.io/[username]/pocketbase2:latest
 ```
+
+## Features
+
+- Benutzerauthentifizierung
+- Dashboard-Übersicht
+- KI-Assistent (powered by OpenAI)
+  - Intelligente Textgenerierung
+  - Kontextsensitive Antworten
+  - Flexibles LLM-Provider-System für zukünftige Erweiterungen
 
 ## Ports
 
 - `80`: Frontend (Nginx)
 - `8090`: PocketBase API
-
-## Container-Architektur
-
-Der Container vereint alle Komponenten in einer einzigen Laufzeitumgebung:
-
-1. **Nginx** (Port 80)
-   - Serviert das statische Frontend
-   - Leitet API-Anfragen an PocketBase weiter
-
-2. **PocketBase** (Port 8090)
-   - Stellt die API bereit
-   - Bietet das Admin-Dashboard unter `/admin`
-
-Diese All-in-One-Lösung vereinfacht das Deployment und reduziert den Verwaltungsaufwand.
 
 ## Erstmaliges Setup
 

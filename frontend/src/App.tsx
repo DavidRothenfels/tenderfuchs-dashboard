@@ -2,6 +2,7 @@ import React from 'react';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { LLMProvider } from './contexts/LLMContext';
 import './App.css';
 
 const MainContent: React.FC = () => {
@@ -22,7 +23,9 @@ const MainContent: React.FC = () => {
 const App: React.FC = () => {
   return (
     <AuthProvider>
-      <MainContent />
+      <LLMProvider>
+        <MainContent />
+      </LLMProvider>
     </AuthProvider>
   );
 };

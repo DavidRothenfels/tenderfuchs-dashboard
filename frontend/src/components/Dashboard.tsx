@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import Chat from './Chat';
 
 const Dashboard: React.FC = () => {
   const { user, logout } = useAuth();
@@ -13,6 +14,10 @@ const Dashboard: React.FC = () => {
         </button>
       </div>
       <div className="dashboard-content">
+        <div className="dashboard-card">
+          <h3>KI-Assistent</h3>
+          <Chat />
+        </div>
         <div className="dashboard-card">
           <h3>Übersicht</h3>
           <p>Willkommen in Ihrem Dashboard. Hier können Sie Ihre Daten verwalten.</p>

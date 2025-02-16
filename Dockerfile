@@ -4,6 +4,11 @@ WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm install
 COPY frontend/ ./
+
+# Build-Zeit Umgebungsvariablen
+ARG REACT_APP_OPENAI_API_KEY
+ENV REACT_APP_OPENAI_API_KEY=$REACT_APP_OPENAI_API_KEY
+
 RUN npm run build
 
 FROM alpine:latest
