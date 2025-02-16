@@ -10,8 +10,9 @@ const getAuthToken = () => {
   return null;
 };
 
+// Verwende immer den relativen Pfad für API-Anfragen
 const api = axios.create({
-  baseURL: `${process.env.REACT_APP_POCKETBASE_URL}/api`,
+  baseURL: '/api'
 });
 
 // Request Interceptor für Auth-Token
