@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -21,9 +21,13 @@ RUN npm run build
 
 # Produktions-Image
 FROM nginx:alpine
-COPY --from=0 /app/build /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 80
+# Kopiere das Build und die nginx Konfiguration
+COPY --from=builder /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf.template
 
-CMD ["nginx", "-g", "daemon off;"]
+# Setze Umgebungsvariable für nginx
+ENV REACT_APP_POCKETBASE_URL=$REACT_APP_POCKETBASE_URL
+
+# Ersetze Umgebungsvariablen in der nginx Konfiguration und starte nginx
+CMD ["/bin/sh", "-c", "envsubst '${REACT_APP_POCKETBASE_URL}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
