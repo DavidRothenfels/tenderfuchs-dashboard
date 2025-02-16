@@ -1,25 +1,19 @@
 version: '3.7'
 services:
-  pocketbase:
-    image: ghcr.io/muchobien/pocketbase:latest
-    container_name: pocketbase
+  app:
+    image: ghcr.io/davidrothenfels/tenderfuchs-dashboard:master
+    container_name: tenderfuchs-dashboard
     restart: unless-stopped
     ports:
+      - "80:80"
       - "8090:8090"
     volumes:
-      - ./pb_data:/pb_data
+      - ./pb_data:/pb/pb_data
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:8090/api/health || exit 1
       interval: 5s
       timeout: 5s
       retries: 5
-
-  frontend:
-    build:
-      context: ./frontend
-    container_name: frontend
-    restart: unless-stopped
-    ports:
-      - "3000:3000"
-    depends_on:
-      - pocketbase
+    environment:
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@example.com}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-changeme123}
