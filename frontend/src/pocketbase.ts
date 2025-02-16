@@ -11,7 +11,7 @@ const getAuthToken = () => {
 };
 
 const api = axios.create({
-  baseURL: 'http://localhost:8090/api',
+  baseURL: `${process.env.REACT_APP_POCKETBASE_URL}/api`,
 });
 
 // Request Interceptor für Auth-Token

@@ -44,7 +44,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: frontend
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
@@ -53,3 +53,6 @@ jobs:
           cache-to: type=gha,mode=max
           build-args: |
             REACT_APP_OPENAI_API_KEY=${{ secrets.REACT_APP_OPENAI_API_KEY }}
+            REACT_APP_POCKETBASE_URL=${{ secrets.REACT_APP_POCKETBASE_URL }}
+            REACT_APP_LLM_MODEL=${{ secrets.REACT_APP_LLM_MODEL }}
+            REACT_APP_LLM_API_URL=${{ secrets.REACT_APP_LLM_API_URL }}

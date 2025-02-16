@@ -1,11 +1,11 @@
 import OpenAI from 'openai';
 import { LLMConfig, LLMProvider, LLMResponse } from '../types';
 
-const SUPPORTED_MODELS = ['gpt-3.5-turbo', 'gpt-4'];
+const SUPPORTED_MODELS = ['mixtral-8x7b-32768', 'llama2-70b-4096'];
 
-export class OpenAIProvider implements LLMProvider {
+export class GroqProvider implements LLMProvider {
   private client: OpenAI | null = null;
-  private model: string = 'gpt-3.5-turbo';
+  private model: string = 'mixtral-8x7b-32768';
   private temperature: number = 0.7;
 
   initialize(config: LLMConfig): void {

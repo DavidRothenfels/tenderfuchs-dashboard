@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLLM } from '../contexts/LLMContext';
 
 const Chat: React.FC = () => {
-  const { isConfigured, query, error } = useLLM();
+  const { isConfigured, query, error, providerName, model } = useLLM();
   const [prompt, setPrompt] = useState('');
   const [response, setResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -28,6 +28,10 @@ const Chat: React.FC = () => {
 
   return (
     <div className="chat-container">
+      <div className="chat-info">
+        <span>Provider: {providerName}</span>
+        <span>Model: {model}</span>
+      </div>
       <div className="chat-response">
         {response || 'Fragen Sie das Sprachmodell etwas...'}
       </div>
